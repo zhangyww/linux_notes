@@ -33,4 +33,24 @@ linux中一些特定信号的默认动作是把一个程序杀掉，然后产生
 8. 从linux3.7开始，如果内核没有配置**CONFIG_COREDUMP**选项，则不会生成core dump文件
 
 
-## /proc/sys/kernel/core_pattern
+
+## core文件命名 /proc/sys/kernel/core_pattern
+
+core dump文件的默认命名为core。自从linux2.6开始，可以通过/proc/sys/kernel/core_pattern文件来设置生成core dump文件的命名规则。
+
+```
+%%  %字符
+%c	core文件 软资源限制 (对于down掉的程序来说)
+%d	dump的模式，和prctl PR_GET_DUMPABLE 返回值相同
+%e  可执行文件的名字(不带路径前缀) (自从Linux3.7)
+%E	可执行文件的pathname，并用!替代/，(自从Linux3.0)
+%g	down掉进程的real GID
+%h	hostname，(和uname返回的nodename相同)
+%i	触发core dump的线程的TID，(正如线程所在的PID namespace中的一样)，(自从Linux3.18)
+%I	触发core dump的进程的TID，(正如初始的PID namespace中的一样)
+%p	触发core dump的进程的PID，(正如进程所在的PID namespace中的一样)
+%P	触发core dump的进程的PID，(正如初始的PID namespace中的一样)
+%s	导致core dump的信号的数值
+%t	dump的时间，表示为自从UTC1970-01-01 00:00::00到现在的秒数
+%u	down掉进程的real UID
+```
